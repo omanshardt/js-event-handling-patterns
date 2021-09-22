@@ -194,7 +194,7 @@ However I think the first approach is the cleaner way, so I would recommend that
 
 **Another approach**
 
-Another approach is to pass a **function call** rather than a **function reference** as the second argument in the `addEventListener`-method. As said before this would result in the immediate execution of this function, so this function can not act directly as the listener function but it can return the function that is meant to be the listener function.
+Another approach is to place a **function call** rather than a **function reference** as the second argument in the `addEventListener`-method. As said before this would result in the immediate execution of this function, In conclusion this placed function does not act directly as the listener function but it can return another function that is meant to be the listener function.
 
 	// global scope
 	function getListenerFunction(val) {
@@ -318,7 +318,7 @@ As functions are objects in javascript, they can have properties and methods as 
 
 This last example is my recommended way to
 - register event listeners on html-elements,
-- separate  listener functions from business logic functions (for better reusability)
+- keeping business logic apart from the listener functions for better reusability
 - execute business logic functions within the same context as the listener functions
 - pass event catching scoped variables to the more globally defined business logic function
-- assign listener function to well-scoped variable for later access i. e. for removal of the listener.
+- have access to the listener functions (i. e. for removing them) from well-defined scopes.
