@@ -272,9 +272,9 @@ To access and remove this – in the above example anonymous – listener functi
 
 **Calling context**
 
-Finally we have to look at the calling context. As stated in **Use a pre-defined function** the default behavior is that the listener function is called on the element on which the listener is registered. This means that the `this` keyword refers to this element. In addition the event object is passed in as the first and only argument to the listener function. This object provides many useful event- and element-related values. So in many cases this will satisfy our needs.
+Finally we have to look at the calling context. As stated in **Use a pre-defined function** the default behavior is that the listener function is called on the element on which the listener is registered. This means that the `this` keyword within the listner function refers to this element. In addition the event object is passed in as the first and only argument. This event object provides many useful event- and element-related values. So in many cases this setup will satisfy our needs.
 
-If we assign an anonymous function to the listener (as done in **Assign the anonymous function to a variable**) and call another function that holds our business logic from within this listener function it is our responsibility to pass the execution context to the business logic function (what is not mandatory but recommended).
+If we assign an anonymous function to the listener (as done in **Assign the anonymous function to a variable**) and call another function that holds our business logic from within this listener function, it is our responsibility to pass the execution context to the business logic function (what is not mandatory but recommended).
 
 	function businessLogic() {
 		console.log('I was clicked');
@@ -288,13 +288,13 @@ If we assign an anonymous function to the listener (as done in **Assign the anon
 		businessLogic();
 	});
 
-So in this case the listener function – what is the in place defined anonymous function – is called on the event catching element, so the `this` keyword refers to the element where the listener is registered. In addition we have access to the event object via the first and only argument that is passed in. That's why we normally declare an `e` or `event` argument to access this event object in a convenient way.
+In this case the listener function – what is the in place defined anonymous function – is called on the event catching element, so the `this` keyword within this function refers to the element where the listener is registered, just as in the previous example. In addition we have access to the event object via the first argument that is passed in. That's why we normally declare an `e` or `event` parameter to access this event object in a convenient way.
 The business logic function in contrast is executed on the window object and it does not know anything about the event object as it is not passed in.
-To fix this we can pass in the event object as an argument and set the event-catching element as the base object for the execution of the business logic function. This is done with the following line
+To fix this we can pass in the event object as an argument and set the event-catching element as the base object for the execution of the business logic function by using the `call()`-method that is available on functions.
 
 	businessLogic.call(this, e);
 
-So the complete example looks like this:
+The complete example looks like this:
 
 	function businessLogic(e) {
 		console.log('I was clicked');
@@ -312,7 +312,7 @@ So the complete example looks like this:
 		document.querySelector('#button-1').removeEventListener('click', listenerFunction);
 	});
 
-As functions are objects in javascript, they can have properties and methods as every other object can have. One pre-defined method is the method `call`. This can be used to set the execution context by passing it in as the first argument. In this example we set the event's catching element (that we can refer with the `this` keyword within the listener function) as the execution context by passing it in as the first argument. The second argument is the event object. And that's it. Within the business logic function we now also can access the event-catching element with the `this` keyword. The event object is passed in as first argument (though being the second argument in the call-method). Again for convenience reasons we give this argument a name `e` or `event`.
+As functions are objects in javascript, they can have properties and methods as every other object can have. One pre-defined method is the method `call`, what can be used to set the execution context by passing it in as the first argument. In this example we set the event's catching element (that we can refer with the `this` keyword within the listener function) as the execution context by passing it in as the first argument. The second argument is the event object. And that's it. Within the business logic function we now also can access the event-catching element with the `this` keyword. The event object is passed in as first argument (though being the second argument in the call-method). Again for convenience reasons we give this argument a name `e` or `event`.
 
 **Conclusion**
 
